@@ -1,4 +1,4 @@
-package tesseract;
+package com.ocr.tesseract;
 
 import org.bytedeco.javacpp.*;
 import org.bytedeco.leptonica.*;
@@ -19,12 +19,13 @@ public class Example {
         }
 
         PIX image = pixRead(args.length > 0 ? args[0] : 
-        	"D:\\cheese java\\ocr\\ocr-cheese\\holycheese-ocr\\ocr-platform-service\\src\\main\\resources\\pic\\1.png");
+        	"D:/cheese java/ocr/ocr-cheese/holycheese-ocr/ocr-platform-service/src/main/resources/pic/7.png");
         api.SetImage(image);
         outText = api.GetUTF8Text();
-        System.out.println("OCR output:\n" + outText.getString());
+        System.out.println("-------OCR output--------\n\n" + outText.getString());
 
         api.End();
+        api.close();
         outText.deallocate();
         pixDestroy(image);
 	}
