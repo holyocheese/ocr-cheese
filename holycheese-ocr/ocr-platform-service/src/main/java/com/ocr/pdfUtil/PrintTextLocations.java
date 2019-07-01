@@ -1,21 +1,17 @@
 package com.ocr.pdfUtil;
 
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
+import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDDocumentCatalog;
-import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.common.PDRectangle;
-import org.apache.pdfbox.pdmodel.common.PDStream;
-import org.apache.pdfbox.pdmodel.encryption.InvalidPasswordException;
 import org.apache.pdfbox.pdmodel.interactive.annotation.PDAnnotationWidget;
 import org.apache.pdfbox.pdmodel.interactive.form.PDAcroForm;
 import org.apache.pdfbox.pdmodel.interactive.form.PDField;
 import org.apache.pdfbox.text.PDFTextStripper;
-
-import java.io.IOException;
-import java.util.List;
 
 public class PrintTextLocations extends PDFTextStripper {
 

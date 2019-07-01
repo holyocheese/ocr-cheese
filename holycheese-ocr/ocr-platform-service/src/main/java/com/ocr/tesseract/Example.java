@@ -1,9 +1,11 @@
 package com.ocr.tesseract;
 
-import org.bytedeco.javacpp.*;
-import org.bytedeco.leptonica.*;
-import org.bytedeco.tesseract.*;
-import static org.bytedeco.leptonica.global.lept.*;
+import static org.bytedeco.leptonica.global.lept.pixDestroy;
+import static org.bytedeco.leptonica.global.lept.pixRead;
+
+import org.bytedeco.javacpp.BytePointer;
+import org.bytedeco.leptonica.PIX;
+import org.bytedeco.tesseract.TessBaseAPI;
 
 public class Example {
 
