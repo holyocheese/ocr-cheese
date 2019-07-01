@@ -23,5 +23,11 @@ eureka:
 mybatis:
   mapper-locations: classpath:com/ocr/dao/sqlmap/*.xml
   type-aliases-package: com.ocr.dao.model
+  
+# 打印日志
+logging:
+  level:
+    root: info
+    com.ocr.dao.client: trace
     
 
