@@ -8,7 +8,9 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 import javax.imageio.IIOImage;
 import javax.imageio.ImageIO;
@@ -27,9 +29,32 @@ public class PdfUtil {
 	public final  static String  IMG_TYPE_JPG = "jpg";
     public final  static String  IMG_TYPE_PNG = "png";
     public static void main( String[] args ) throws IOException{
-    	PdfUtil pdf2Image = new PdfUtil();
-        pdf2Image.pdf2img("D:\\cheese python\\osaka\\ou\\呼吸機能検査_20170718"
-        		+ "\\0032_M004k004_呼吸機能検査_170704_システム_呼吸記録検査報告書_1.pdf", "D:",IMG_TYPE_JPG);
+    	String path = "D:\\cheese python\\osaka\\ou\\骨2012";
+    	File[] allFiles = new File(path).listFiles();
+        for (int i = 0; i < allFiles.length; i++) {
+            File file = allFiles[i];
+            String fileName=file.getName().substring(file.getName().lastIndexOf("\\")+1);  
+            if(fileName.lastIndexOf(".")<0){
+            	continue;
+            }
+            String[] strArray = fileName.split("\\.");
+            int suffixIndex = strArray.length -1;
+            String caselsh = strArray[suffixIndex-1];
+            String fileType = strArray[suffixIndex];
+    		//如果是PDF
+    		if(fileType.equals("pdf")){
+    			String imgPath = path+"\\"+caselsh;
+    			File pdffile = new File(imgPath);
+    			System.out.println(path+"\\"+caselsh+".pdf");
+    			pdffile.mkdirs();
+    			//转换成jpg
+    			System.out.println("转换中：" + path+"\\"+caselsh);
+    	    	PdfUtil pdf2Image = new PdfUtil();
+    	        pdf2Image.pdf2img(path+"\\"+caselsh+".pdf", 
+    	        		imgPath,
+    	        		IMG_TYPE_JPG);
+    		}
+        }
     }
 
 	/**
@@ -114,5 +139,6 @@ public class PdfUtil {
         ImageOutputStream imageout = ImageIO.createImageOutputStream(new FileOutputStream(saveFileName));
         writer.setOutput(imageout);
         writer.write(new IIOImage(img_temp, null, null));
+        imageout.close();
     }
 }
