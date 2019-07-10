@@ -1,5 +1,4 @@
-package com.ocr.pdfUtil;
-
+package com.ocr.tesseract;
 
 import java.awt.image.BufferedImage;
 import java.io.BufferedInputStream;
@@ -8,9 +7,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
 
 import javax.imageio.IIOImage;
 import javax.imageio.ImageIO;
@@ -23,42 +20,15 @@ import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.rendering.PDFRenderer;
 import org.apache.pdfbox.tools.imageio.ImageIOUtil;
- 
 
-public class PdfUtil {
+import com.ocr.pdfUtil.PdfUtil;
+
+public class Test {
+
 	public final  static String  IMG_TYPE_JPG = "jpg";
     public final  static String  IMG_TYPE_PNG = "png";
     public static void main( String[] args ) throws IOException{
-//    	String path = "D:\\cheese python\\osaka\\ou\\骨2012";
-//    	File[] allFiles = new File(path).listFiles();
-//        for (int i = 0; i < allFiles.length; i++) {
-//            File file = allFiles[i];
-//            String fileName=file.getName().substring(file.getName().lastIndexOf("\\")+1);  
-//            if(fileName.lastIndexOf(".")<0){
-//            	continue;
-//            }
-//            String[] strArray = fileName.split("\\.");
-//            int suffixIndex = strArray.length -1;
-//            String caselsh = strArray[suffixIndex-1];
-//            String fileType = strArray[suffixIndex];
-//    		//如果是PDF
-//    		if(fileType.equals("pdf")){
-//    			String imgPath = "D:\\cheese python\\osaka\\ou\\img2012\\"+caselsh.substring(0,4);
-//    			File pdffile = new File(imgPath);
-//    			System.out.println(path+"\\"+caselsh+".pdf");
-//    			pdffile.mkdirs();
-//    			//转换成jpg
-//    			System.out.println("转换中：" + path+"\\"+caselsh);
-//    	    	PdfUtil pdf2Image = new PdfUtil();
-//    	        pdf2Image.pdf2img(path+"\\"+caselsh+".pdf", 
-//    	        		imgPath,
-//    	        		IMG_TYPE_JPG);
-//    		}
-//        }
-    	PdfUtil pdf2Image = new PdfUtil();
-        pdf2Image.pdf2img("D:\\1.pdf", 
-        		"D:",
-        		"png");
+    	pdf2img("D:\\1.pdf","D:\\",IMG_TYPE_JPG);
     }
 
 	/**
@@ -87,7 +57,7 @@ public class PdfUtil {
      * @param savePath 图片保存的地址
      * @param imgType 图片保存方式
      */
-    public void pdf2img(String pdfPath,String savePath,String imgType){
+    public static void pdf2img(String pdfPath,String savePath,String imgType){
         String fileName = pdfPath.substring(pdfPath.lastIndexOf("\\")+1, pdfPath.length());
         fileName = fileName.substring(0,fileName.lastIndexOf("."));
         InputStream is = null;
@@ -133,7 +103,7 @@ public class PdfUtil {
      * @param index 页索引
      * @throws IOException
      */
-    public void pdfPage2Img(PDPage page,String saveFileName,String imgType,PDFRenderer renderer,int index) throws IOException{
+    public static void pdfPage2Img(PDPage page,String saveFileName,String imgType,PDFRenderer renderer,int index) throws IOException{
         //构造图片 添加DPI更加清晰
         BufferedImage img_temp  = renderer.renderImageWithDPI(index, 350);
         //设置图片格式
@@ -145,4 +115,5 @@ public class PdfUtil {
         writer.write(new IIOImage(img_temp, null, null));
         imageout.close();
     }
+
 }

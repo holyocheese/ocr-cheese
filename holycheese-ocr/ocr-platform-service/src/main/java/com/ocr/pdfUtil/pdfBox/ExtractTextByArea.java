@@ -52,7 +52,7 @@ public final class ExtractTextByArea
         }
         else
         {
-            try (PDDocument document = PDDocument.load(new File("D:\\1.pdf")))
+            try (PDDocument document = PDDocument.load(new File("D:\\3333.pdf")))
             {
                 PDFTextStripperByArea stripper = new PDFTextStripperByArea();
                 stripper.setSortByPosition( true );

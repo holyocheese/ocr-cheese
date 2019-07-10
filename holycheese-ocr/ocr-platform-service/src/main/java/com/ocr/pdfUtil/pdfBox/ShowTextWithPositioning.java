@@ -106,7 +106,8 @@ public class ShowTextWithPositioning
                     }
                     text.add(parts[i]);
                 }
-                contentStream.showTextWithPositioning(text.toArray());
+                /*2.0.1无效*/
+                //contentStream.showTextWithPositioning(text.toArray());
                 contentStream.setTextMatrix(Matrix.getTranslateInstance(0, pageSize.getHeight() - stringHeight / 1000f * 3));
 
                 // Now show letter justified.
@@ -123,7 +124,8 @@ public class ShowTextWithPositioning
                     
                     text.add(String.valueOf(Character.toChars(message.codePointAt(i))));
                 }
-                contentStream.showTextWithPositioning(text.toArray());
+                /*2.0.1无效*/
+                //contentStream.showTextWithPositioning(text.toArray());
 
                 // PDF specification about word spacing:
                 // "Word spacing shall be applied to every occurrence of the single-byte character 
@@ -146,7 +148,8 @@ public class ShowTextWithPositioning
                 font = PDTrueTypeFont.load(doc, PDDocument.class.getResourceAsStream(
                         "/org/apache/pdfbox/resources/ttf/LiberationSans-Regular.ttf"), WinAnsiEncoding.INSTANCE);
                 contentStream.setFont(font, FONT_SIZE);
-                contentStream.setWordSpacing(wordSpacing);
+                /*2.0.1无效*/
+                //contentStream.setWordSpacing(wordSpacing);
                 contentStream.showText(message);
 
                 // Type0 font with word spacing that has no effect
@@ -155,7 +158,8 @@ public class ShowTextWithPositioning
                 font = PDType0Font.load(doc, PDDocument.class.getResourceAsStream(
                         "/org/apache/pdfbox/resources/ttf/LiberationSans-Regular.ttf"));
                 contentStream.setFont(font, FONT_SIZE);
-                contentStream.setWordSpacing(wordSpacing);
+                /*2.0.1无效*/
+                //contentStream.setWordSpacing(wordSpacing);
                 contentStream.showText(message);
 
                 // Finish up.

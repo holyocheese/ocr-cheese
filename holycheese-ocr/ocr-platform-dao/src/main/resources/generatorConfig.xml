@@ -33,11 +33,12 @@
 			<property name="enableSubPackages" value="true" />
 		</javaClientGenerator>
 		
-		<table tableName="ocr_bone"  enableCountByExample="false"
+		<table tableName="ocr_base_tabledata"  enableCountByExample="false"
 			   enableUpdateByExample="true" enableDeleteByExample="false"
 			   enableSelectByExample="true" selectByExampleQueryId="false" >
 			<property name="useActualColumnNames" value="false" />
 			<generatedKey column="id" sqlStatement="MySql" identity="true"/>
 		</table>
+		
 	</context>
 </generatorConfiguration>

@@ -37,10 +37,17 @@ public class UnitTest {
 		this.base = new URL(url);
 	}
 
-	@Test
+	//@Test
 	public void updatePatientInfor() {
 		ResponseEntity<String> response = this.restTemplate
 				.getForEntity(this.base.toString() + "/ocrBone/updatePatientInfor", String.class, "");
+		System.out.println(String.format("测试结果为：%s", response.getBody()));
+	}
+	
+	@Test
+	public void pDFCuttingController() {
+		ResponseEntity<String> response = this.restTemplate
+				.getForEntity(this.base.toString() + "/pdfCutting/pdfCutting4ThreePart", String.class, "");
 		System.out.println(String.format("测试结果为：%s", response.getBody()));
 	}
 
