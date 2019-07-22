@@ -57,7 +57,7 @@ public class PrintTextLocations extends PDFTextStripper
         }
         else
         {
-            try (PDDocument document = PDDocument.load(new File("D:\\3333.pdf")))
+            try (PDDocument document = PDDocument.load(new File("D:\\cheese python\\osaka\\ou\\huxi\\0000.pdf")))
             {
                 PDFTextStripper stripper = new PrintTextLocations();
                 stripper.setSortByPosition( true );
