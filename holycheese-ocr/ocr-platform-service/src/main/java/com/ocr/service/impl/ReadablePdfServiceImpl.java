@@ -90,25 +90,25 @@ public class ReadablePdfServiceImpl implements ReadablePdfService {
 			stripper.addRegion("humidity", rect2);// 湿度
 			Rectangle rect3 = new Rectangle(443, 52, 13, 6);
 			stripper.addRegion("pressure", rect3);// 湿度
-			Rectangle rect4 = new Rectangle(287, 65, 8, 7);
+			Rectangle rect4 = new Rectangle(286, 65, 9, 7);
 			stripper.addRegion("age", rect4);// 年龄
-			Rectangle rect5 = new Rectangle(375, 80, 14, 6);
+			Rectangle rect5 = new Rectangle(370, 80, 18, 6);
 			stripper.addRegion("weight", rect5);// 体重
 			Rectangle rect6 = new Rectangle(456, 80, 14, 7);
 			stripper.addRegion("BSA", rect6);// BSA
-			Rectangle rect7 = new Rectangle(410, 108, 26, 7);
+			Rectangle rect7 = new Rectangle(405, 108, 40, 7);
 			stripper.addRegion("determination_type", rect7);// 检查种类
 			Rectangle rect8 = new Rectangle(276, 80, 18, 7);
 			stripper.addRegion("height", rect8);// 身高
 			Rectangle rect9 = new Rectangle(378, 66, 11, 7);
 			stripper.addRegion("sex", rect9);// 性别
-			Rectangle rect10 = new Rectangle(228, 108, 13, 7);
+			Rectangle rect10 = new Rectangle(210, 108, 50, 7);
 			stripper.addRegion("building", rect10);// building
 			PDPage firstPage = document.getPage(0);
 			stripper.extractRegions(firstPage);
 			try {
 				String temperature = stripper.getTextForRegion("temperature");
-				temperature = temperature.substring(0, temperature.indexOf("°"));
+				temperature = temperature.substring(0, temperature.indexOf("°")).trim();
 				breathReport.setTemperature(new BigDecimal(temperature));
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -125,7 +125,7 @@ public class ReadablePdfServiceImpl implements ReadablePdfService {
 			try {
 				String pressure = stripper.getTextForRegion("pressure");
 				if (pressure.indexOf("\r") >= 0) {
-					pressure = pressure.substring(0, pressure.indexOf("\r"));
+					pressure = pressure.substring(0, pressure.indexOf("\r")).trim();
 				}
 				breathReport.setPressure(new BigDecimal(pressure));
 			} catch (Exception e) {
@@ -134,7 +134,7 @@ public class ReadablePdfServiceImpl implements ReadablePdfService {
 			try {
 				String weight = stripper.getTextForRegion("weight");
 				if (weight.indexOf("\r") >= 0) {
-					weight = weight.substring(0, weight.indexOf("\r"));
+					weight = weight.substring(0, weight.indexOf("\r")).trim();
 				}
 				breathReport.setWeight(new BigDecimal(weight));
 			} catch (Exception e) {
@@ -143,7 +143,7 @@ public class ReadablePdfServiceImpl implements ReadablePdfService {
 			try {
 				String age = stripper.getTextForRegion("age");
 				if (age.indexOf("\r") >= 0) {
-					age = age.substring(0, age.indexOf("\r"));
+					age = age.substring(0, age.indexOf("\r")).trim();
 				}
 				breathReport.setAge(Integer.parseInt(age));
 			} catch (Exception e) {
@@ -152,7 +152,7 @@ public class ReadablePdfServiceImpl implements ReadablePdfService {
 			try {
 				String BSA = stripper.getTextForRegion("BSA");
 				if (BSA.indexOf("\r") >= 0) {
-					BSA = BSA.substring(0, BSA.indexOf("\r"));
+					BSA = BSA.substring(0, BSA.indexOf("\r")).trim();
 				}
 				breathReport.setBsa(new BigDecimal(BSA));
 			} catch (Exception e) {
@@ -161,7 +161,7 @@ public class ReadablePdfServiceImpl implements ReadablePdfService {
 			try {
 				String height = stripper.getTextForRegion("height");
 				if (height.indexOf("\r") >= 0) {
-					height = height.substring(0, height.indexOf("\r"));
+					height = height.substring(0, height.indexOf("\r")).trim();
 				}
 				breathReport.setHeight(new BigDecimal(height));
 			} catch (Exception e) {
@@ -170,9 +170,9 @@ public class ReadablePdfServiceImpl implements ReadablePdfService {
 			try {
 				String sex = stripper.getTextForRegion("sex");
 				if (sex.indexOf("\r") >= 0) {
-					sex = sex.substring(0, sex.indexOf("\r"));
+					sex = sex.substring(0, sex.indexOf("\r")).trim();
 				}
-				breathReport.setSex(sex.equals("男性")?"male":"female");
+				breathReport.setSex(sex);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -190,7 +190,7 @@ public class ReadablePdfServiceImpl implements ReadablePdfService {
 			e.printStackTrace();
 		} catch (Exception e) {
 			e.printStackTrace();
-		}
+		} 
 		return breathReport;
 	}
 
@@ -225,7 +225,17 @@ public class ReadablePdfServiceImpl implements ReadablePdfService {
 				stripper.extractRegions(firstPage);
 				BreathReportTabledata breathReportTabledata = new BreathReportTabledata();
 				breathReportTabledata.setGroupName("flow_volume");
-				breathReportTabledata.setColumnName(stripper.getTextForRegion("line"+y));
+				String columnName = stripper.getTextForRegion("line"+y);
+				if(columnName.indexOf("^")>0){
+					columnName = columnName.substring(0,columnName.indexOf("^"));
+				}
+				if(columnName.indexOf("__")>0){
+					columnName = columnName.substring(0,columnName.indexOf("__"));
+				}
+				if(columnName.indexOf("I.O")>0){
+					columnName = columnName.replace("I.O","1.0");
+				}
+				breathReportTabledata.setColumnName(columnName);
 				for(int x=0;x<4;x++){
 					if(x==0){
 						try {
@@ -269,6 +279,9 @@ public class ReadablePdfServiceImpl implements ReadablePdfService {
 					if(x==3){
 						try {
 							String unit = stripper.getTextForRegion("column"+y+x);
+							if(unit.indexOf("し")>=0){
+								unit = unit.replace("し", "L");
+							}
 							unit.replace("し", "L");
 							breathReportTabledata.setUnit(unit);
 						} catch (Exception e) {

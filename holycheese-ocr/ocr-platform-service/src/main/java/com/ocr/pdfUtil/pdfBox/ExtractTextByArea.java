@@ -53,12 +53,12 @@ public final class ExtractTextByArea
         }
         else
         {
-        	String path = "D:\\cheese python\\osaka\\ou\\huxi\\0000.pdf";
+        	String path = "D:\\cheese python\\osaka\\ou\\huxi\\0016.pdf";
             try (PDDocument document = PDDocument.load(new File(path)))
             {
                 PDFTextStripperByArea stripper = new PDFTextStripperByArea();
                 stripper.setSortByPosition( true );
-                Rectangle rect = new Rectangle( 204, 217, 14, 6 );
+                Rectangle rect = new Rectangle( 286, 65, 9, 7 );
                 stripper.addRegion( "class1", rect );
                 Rectangle rect1 = new Rectangle( 262, 37, 72, 6 );
                 stripper.addRegion( "determination_date", rect1 );//测定日
