@@ -4,8 +4,6 @@ import java.awt.Rectangle;
 import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -14,14 +12,20 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.encryption.InvalidPasswordException;
+import org.apache.pdfbox.text.PDFTextStripper;
 import org.apache.pdfbox.text.PDFTextStripperByArea;
+import org.apache.pdfbox.text.TextPosition;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ocr.dao.client.BreathReportMapper;
 import com.ocr.dao.client.BreathReportTabledataMapper;
+import com.ocr.dao.client.PdfLinedataMapper;
+import com.ocr.dao.client.PdfMapper;
 import com.ocr.dao.model.BreathReport;
 import com.ocr.dao.model.BreathReportTabledata;
+import com.ocr.dao.model.Pdf;
+import com.ocr.dao.model.PdfLinedata;
 import com.ocr.service.ReadablePdfService;
 import com.ocr.utils.MsgVo;
 
@@ -32,6 +36,52 @@ public class ReadablePdfServiceImpl implements ReadablePdfService {
 	private BreathReportMapper breathReportMapper;
 	@Autowired
 	private BreathReportTabledataMapper breathReportTabledataMapper;
+	@Autowired
+	private PdfMapper pdfMapper;
+	@Autowired
+	private PdfLinedataMapper pdfLinedataMapper;
+	
+	public class PrintTextLocations extends PDFTextStripper
+	{
+	    /**
+	     * Instantiate a new PDFTextStripper object.
+	     *
+	     * @throws IOException If there is an error loading the properties.
+	     */
+	    public PrintTextLocations() throws IOException
+	    {
+	    }
+
+	    @Override
+	    protected void writeString(String string, List<TextPosition> textPositions) throws IOException
+	    {
+	    	int first = 0;
+	    	float lastLineY = textPositions.get(0).getYDirAdj();
+	    	PdfLinedata pdfLinedata = new PdfLinedata();
+	        for (TextPosition text : textPositions){
+	        	if(first==0){
+	        		pdfLinedata.setxBegin(text.getXDirAdj());
+	        		pdfLinedata.setText(text.getUnicode());
+	        		pdfLinedata.setyBegin(lastLineY);
+	        		pdfLinedata.setxEnd(text.getWidthOfSpace()+text.getXDirAdj());
+	        	}else{
+	        		pdfLinedata.setText(pdfLinedata.getText()+text.getUnicode());
+		            pdfLinedata.setxEnd(text.getWidthOfSpace()+text.getXDirAdj());
+	        	}
+	        	
+	        	first++;
+//	        	//读取
+	            System.out.println( "String[" + text.getXDirAdj() + "," +
+	                    text.getYDirAdj() + " fs=" + text.getFontSize() + " xscale=" +
+	                    text.getXScale() + " height=" + text.getHeightDir() + " space=" +
+	                    text.getWidthOfSpace() + " width=" +
+	                    text.getWidthDirAdj() + "]" + text.getUnicode() );
+	        }
+	        pdfLinedata.setPdfId(pdfMapper.selectMaxId());
+	        pdfLinedataMapper.insertSelective(pdfLinedata);
+	    }
+	    
+	}
 
 	@Override
 	public MsgVo<String> readingPdf4BreathReports(String path) {
@@ -296,5 +346,42 @@ public class ReadablePdfServiceImpl implements ReadablePdfService {
 			e.printStackTrace();
 		}
 		return returnList;
+	}
+
+	@Override
+	public void convertPdfIntoDataSet(String path) throws IOException {
+		Pdf pdf = new Pdf();
+		File dirfile = new File(path);
+		if (dirfile.exists() && dirfile.isDirectory()) {
+			String[] filelist = dirfile.list();
+			for (int i = 0; i < 1; i++) {
+				//写入pdf
+				pdf.setPath(path);
+				pdf.setFileName(filelist[i]);
+				pdfMapper.insertSelective(pdf);
+				// 目标路径
+				File readfile = new File(path + "\\" + filelist[i]);
+				if (!readfile.isDirectory()) {
+					String fileType = filelist[i].substring(filelist[i].lastIndexOf("."), filelist[i].length());
+					if (fileType.indexOf("pd") >= 0) {// pdf
+				        try (PDDocument document = PDDocument.load(readfile)){
+				            PDFTextStripper stripper = new PrintTextLocations();
+				            stripper.setSortByPosition( true );
+				            stripper.setStartPage( 0 );
+				            stripper.setEndPage( document.getNumberOfPages() );
+				            //包含写入
+				            stripper.getText(document);
+				        }
+					} else {
+						continue;
+					}
+				} else if (readfile.isDirectory()) {
+					continue;
+				}
+			}
+		} else {
+			
+		}
+
 	}
 }

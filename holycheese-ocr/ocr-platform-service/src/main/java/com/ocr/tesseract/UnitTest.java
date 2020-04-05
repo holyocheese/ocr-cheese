@@ -52,13 +52,22 @@ public class UnitTest {
 		System.out.println(String.format("测试结果为：%s", response.getBody()));
 	}
 	
-	@Test
+	//@Test
 	public void breathReportReading() {
 		ResponseEntity<MsgVo> response = this.restTemplate
 				.getForEntity(this.base.toString() + "/breathReport/reportReading?path=" + "D:\\cheese python\\osaka\\ou\\huxi", 
 						MsgVo.class);
 		System.out.println(String.format("测试结果为：%s", 	response.getBody().getMessage()));
 	}
+	
+	@Test
+	public void convertPdf() {
+		ResponseEntity<MsgVo> response = this.restTemplate
+				.getForEntity(this.base.toString() + "/dataSet/convertPdfIntoDataSet?path=" + "D:\\cheese python\\huxi2", 
+						MsgVo.class);
+		System.out.println(String.format("测试结果为：%s", 	response.getBody().getMessage()));
+	}
+
 
 	public static void main(String[] args) {
 

@@ -21,6 +21,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
+import java.util.Arrays;
 import java.util.List;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.text.PDFTextStripper;
@@ -57,7 +58,8 @@ public class PrintTextLocations extends PDFTextStripper
         }
         else
         {
-            try (PDDocument document = PDDocument.load(new File("D:\\cheese python\\osaka\\ou\\huxi\\0016.pdf")))
+            try (PDDocument document = PDDocument.load(new File("D:\\cheese python\\huxi\\0001_M004k004_呼吸機能検査_170707_システム_呼吸記録検査報告書_1.pdf")))
+        	//try (PDDocument document = PDDocument.load(new File("D:\\cheese python\\10.1.1.148.349.pdf")))
             {
                 PDFTextStripper stripper = new PrintTextLocations();
                 stripper.setSortByPosition( true );
@@ -66,6 +68,19 @@ public class PrintTextLocations extends PDFTextStripper
 
                 Writer dummy = new OutputStreamWriter(new ByteArrayOutputStream());
                 stripper.writeText(document, dummy);
+                //System.out.println(stripper.getText(document));
+                for (int p = 1; p <= 1; ++p){
+                	String text = stripper.getText(document);
+                    String pageStr = String.format("page %d:", p);
+                     System.out.println(pageStr);
+                    for (int i = 0; i < pageStr.length(); ++i)
+                    {
+                    System.out.print("-");
+                    }
+                    System.out.println();
+                    System.out.println(text.trim());
+                    System.out.println();
+                }
             }
         }
     }
@@ -76,8 +91,13 @@ public class PrintTextLocations extends PDFTextStripper
     @Override
     protected void writeString(String string, List<TextPosition> textPositions) throws IOException
     {
+    	float lastTextY = Float.parseFloat("0.00");
+    	float lastLineY = Float.parseFloat("0.00");
         for (TextPosition text : textPositions)
         {
+        	lastTextY = text.getYDirAdj();
+        	lastLineY = text.getYDirAdj();
+        	//读取
             System.out.println( "String[" + text.getXDirAdj() + "," +
                     text.getYDirAdj() + " fs=" + text.getFontSize() + " xscale=" +
                     text.getXScale() + " height=" + text.getHeightDir() + " space=" +

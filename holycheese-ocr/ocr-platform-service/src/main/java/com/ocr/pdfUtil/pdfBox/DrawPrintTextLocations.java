@@ -96,9 +96,9 @@ public class DrawPrintTextLocations extends PDFTextStripper
         }
         else
         {
-            try (PDDocument document = PDDocument.load(new File("D:\\1.pdf")))
+            try (PDDocument document = PDDocument.load(new File("D:\\cheese python\\10.1.1.148.349.pdf")))
             {
-                DrawPrintTextLocations stripper = new DrawPrintTextLocations(document, "D:\\1.pdf");
+                DrawPrintTextLocations stripper = new DrawPrintTextLocations(document, "D:\\cheese python\\10.1.1.148.349.pdf");
                 stripper.setSortByPosition(true);
 
                 for (int page = 0; page < document.getNumberOfPages(); ++page)
