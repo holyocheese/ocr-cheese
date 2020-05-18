@@ -41,6 +41,10 @@ public class ReadablePdfServiceImpl implements ReadablePdfService {
 	@Autowired
 	private PdfLinedataMapper pdfLinedataMapper;
 	
+	Integer count = 0;
+	
+	Integer lastId = 0;
+	
 	public class PrintTextLocations extends PDFTextStripper
 	{
 	    /**
@@ -59,6 +63,10 @@ public class ReadablePdfServiceImpl implements ReadablePdfService {
 	    	float lastLineY = textPositions.get(0).getYDirAdj();
 	    	PdfLinedata pdfLinedata = new PdfLinedata();
 	        for (TextPosition text : textPositions){
+	        	//上半部
+	        	if(Float.compare(lastLineY, Float.parseFloat("120"))>0){
+	        		return;
+	        	}
 	        	if(first==0){
 	        		pdfLinedata.setxBegin(text.getXDirAdj());
 	        		pdfLinedata.setText(text.getUnicode());
@@ -354,7 +362,7 @@ public class ReadablePdfServiceImpl implements ReadablePdfService {
 		File dirfile = new File(path);
 		if (dirfile.exists() && dirfile.isDirectory()) {
 			String[] filelist = dirfile.list();
-			for (int i = 0; i < 1; i++) {
+			for (int i = 0; i < filelist.length; i++) {
 				//写入pdf
 				pdf.setPath(path);
 				pdf.setFileName(filelist[i]);

@@ -1,4 +1,4 @@
-package com.ocr.tesseract;
+package com.ocr.unittest;
 
 import java.net.MalformedURLException;
 import java.net.URL;

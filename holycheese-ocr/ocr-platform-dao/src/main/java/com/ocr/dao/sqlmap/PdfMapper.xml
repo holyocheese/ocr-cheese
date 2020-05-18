@@ -218,6 +218,6 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
    <select id="selectMaxId" resultType="java.lang.Integer">
-		select LAST_INSERT_ID();
+		SELECT id FROM pdf ORDER BY id DESC LIMIT 0,1
   	</select>
 </mapper>

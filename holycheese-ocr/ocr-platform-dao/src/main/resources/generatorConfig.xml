@@ -33,18 +33,17 @@
 			<property name="enableSubPackages" value="true" />
 		</javaClientGenerator>
 		
-		<table tableName="breath_report"  enableCountByExample="false"
+<!-- 		<table tableName="pdf"  enableCountByExample="false"
 			   enableUpdateByExample="true" enableDeleteByExample="false"
 			   enableSelectByExample="true" selectByExampleQueryId="false" >
 			<property name="useActualColumnNames" value="false" />
 			<generatedKey column="id" sqlStatement="MySql" identity="true"/>
-		</table>
+		</table> -->
 		
-		<table tableName="breath_report_tabledata"  enableCountByExample="false"
+		<table tableName="pdf_linedata"  enableCountByExample="false"
 			   enableUpdateByExample="true" enableDeleteByExample="false"
 			   enableSelectByExample="true" selectByExampleQueryId="false" >
 			<property name="useActualColumnNames" value="false" />
-			<generatedKey column="id" sqlStatement="MySql" identity="true"/>
 		</table>
 		
 	</context>
