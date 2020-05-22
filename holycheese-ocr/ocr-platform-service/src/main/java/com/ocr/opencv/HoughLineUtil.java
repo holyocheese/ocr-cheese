@@ -26,7 +26,7 @@ public class HoughLineUtil {
 	 * @date: 2019年1月18日 上午9:18:08
 	 */
 	public static void houghLines() {
-		Mat src=Imgcodecs.imread("D:\\0001.png");
+		Mat src=Imgcodecs.imread("D:\\0002.png");
 		Mat gary=new Mat();
 		Mat lines=new Mat();
 		//1.边缘处理

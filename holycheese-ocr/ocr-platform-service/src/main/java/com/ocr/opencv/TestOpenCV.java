@@ -46,7 +46,7 @@ public class TestOpenCV {
     //@Test
     public static void readTable(){
 
-        Mat source_image = Imgcodecs.imread("D:\\0001.png");
+        Mat source_image = Imgcodecs.imread("D:\\0003.jpg");
         //灰度处理
         Mat gray_image = new Mat(source_image.height(), source_image.width(), CvType.CV_8UC1);
         Imgproc.cvtColor(source_image,gray_image,Imgproc.COLOR_RGB2GRAY);

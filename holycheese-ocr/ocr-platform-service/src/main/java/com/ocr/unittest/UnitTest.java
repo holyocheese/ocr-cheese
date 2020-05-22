@@ -17,6 +17,8 @@ import com.ocr.OcrApplication;
 import com.ocr.dao.client.OcrBoneMapper;
 import com.ocr.utils.MsgVo;
 
+import technology.tabula.CommandLineApp;
+
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(classes = OcrApplication.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class UnitTest {
@@ -60,14 +62,22 @@ public class UnitTest {
 		System.out.println(String.format("测试结果为：%s", 	response.getBody().getMessage()));
 	}
 	
-	@Test
+	//@Test
 	public void convertPdf() {
 		ResponseEntity<MsgVo> response = this.restTemplate
 				.getForEntity(this.base.toString() + "/dataSet/convertPdfIntoDataSet?path=" + "D:\\cheese python\\huxi2", 
 						MsgVo.class);
 		System.out.println(String.format("测试结果为：%s", 	response.getBody().getMessage()));
 	}
+	
+	//Tabula 测试
+	@Test
+    public void testTabula() {
+        String[] args = new String[]{"-f=JSON","-o=d:/output.txt", "-p=all", "D:\\0001.pdf"};
+        CommandLineApp.main(args);
+    }
 
+	
 
 	public static void main(String[] args) {
 
