@@ -45,6 +45,8 @@ public class ReadablePdfServiceImpl implements ReadablePdfService {
 	
 	Integer lastId = 0;
 	
+	float minDistance = Float.parseFloat("18.0");
+	
 	public class PrintTextLocations extends PDFTextStripper
 	{
 	    /**
@@ -62,23 +64,37 @@ public class ReadablePdfServiceImpl implements ReadablePdfService {
 	    	int first = 0;
 	    	float lastLineY = textPositions.get(0).getYDirAdj();
 	    	PdfLinedata pdfLinedata = new PdfLinedata();
+	    	float lastX = Float.parseFloat("0.0");
 	        for (TextPosition text : textPositions){
 	        	//上半部
 	        	if(Float.compare(lastLineY, Float.parseFloat("120"))>0){
 	        		return;
 	        	}
 	        	if(first==0){
-	        		pdfLinedata.setxBegin(text.getXDirAdj());
-	        		pdfLinedata.setText(text.getUnicode());
+	        		pdfLinedata.setxBegin(pdfLinedata.getxBegin()==null?text.getXDirAdj():pdfLinedata.getxBegin());
+	        		pdfLinedata.setText(pdfLinedata.getText()==null?text.getUnicode():pdfLinedata.getText()+text.getUnicode());
 	        		pdfLinedata.setyBegin(lastLineY);
 	        		pdfLinedata.setxEnd(text.getWidthOfSpace()+text.getXDirAdj());
 	        	}else{
-	        		pdfLinedata.setText(pdfLinedata.getText()+text.getUnicode());
-		            pdfLinedata.setxEnd(text.getWidthOfSpace()+text.getXDirAdj());
+	        		//如果大于最小间隔 则
+	        		if(text.getXDirAdj()-lastX>minDistance){
+	        			pdfLinedata.setPdfId(pdfMapper.selectMaxId());
+	        			pdfLinedataMapper.insertSelective(pdfLinedata);
+	        			first = -1;//重新作为头
+	        			pdfLinedata.setText(text.getUnicode());
+	        			pdfLinedata.setxBegin(text.getXDirAdj());
+	        		}else{
+	        			pdfLinedata.setText(pdfLinedata.getText()+text.getUnicode());
+			            pdfLinedata.setxEnd(text.getWidthOfSpace()+text.getXDirAdj());
+	        		}
+	        		
 	        	}
-	        	
+	        	//去掉空格
+	        	if(!StringUtils.isBlank(text.getUnicode())&&text.getWidthDirAdj()>=3){
+	        		lastX = text.getXDirAdj();
+	        	}
 	        	first++;
-//	        	//读取
+	        	//读取
 	            System.out.println( "String[" + text.getXDirAdj() + "," +
 	                    text.getYDirAdj() + " fs=" + text.getFontSize() + " xscale=" +
 	                    text.getXScale() + " height=" + text.getHeightDir() + " space=" +
