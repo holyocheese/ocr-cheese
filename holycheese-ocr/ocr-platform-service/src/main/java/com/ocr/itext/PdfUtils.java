@@ -51,8 +51,8 @@ public class PdfUtils {
 //            System.out.println(m);
 //        }
 //        manipulatePdf("C:\\Users\\Desktop\\pdftest.pdf","C:\\Users\\Desktop\\pdftest_new.pdf",matchItems,"系统");
-        String src = "D:/cheese python/huxi2/0test.pdf";
-        String dest = "D:/cheese python/huxi2/0000000.pdf";
+        String src = "D:/cheese python/huxi2/0000000.pdf";
+        String dest = "D:/cheese python/huxi2/0000001.pdf";
         String keyWord = "11330963";
         String keyWordNew = "0000000";
         pdfReplace(src,dest,keyWord,keyWordNew);

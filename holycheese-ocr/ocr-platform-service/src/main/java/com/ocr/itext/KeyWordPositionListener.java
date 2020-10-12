@@ -50,9 +50,10 @@ public class KeyWordPositionListener implements RenderListener {
         item.setPageWidth(curPageSize.getWidth());
         item.setX((float)textRectangle.getX());
         item.setY((float)textRectangle.getY());
-
+        System.out.println(content);
         //若keyword是单个字符，匹配上的情况
         if(content.equalsIgnoreCase(keyword)) {
+        	
             matches.add(item);
         }
         //保存所有的项

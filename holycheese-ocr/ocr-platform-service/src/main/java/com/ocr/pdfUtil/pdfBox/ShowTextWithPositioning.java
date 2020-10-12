@@ -47,7 +47,7 @@ public class ShowTextWithPositioning
 
     public static void main(String[] args) throws IOException
     {
-        doIt("Hello World, this is a test!", "D:\\cheese python\\huxi\\0000_M004k004_呼吸機能検査_170707_システム_呼吸記録検査報告書_1.pdf");
+        doIt("Hello World, this is a test!", "D:\\cheese python\\pdf\\MRI\\M004r179_心・大血管MRI画像診断報告書_01\\02019576.pdf");
     }
 
     public static void doIt(String message, String outfile) throws IOException

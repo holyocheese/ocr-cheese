@@ -53,7 +53,7 @@ public final class ExtractTextByArea
         }
         else
         {
-        	String path = "D:\\cheese python\\huxi\\0000_M004k004_呼吸機能検査_170707_システム_呼吸記録検査報告書_1.pdf";
+        	String path = "D:\\cheese python\\pdf\\MRI\\M004r179_心・大血管MRI画像診断報告書_01\\02019576.pdf";
             try (PDDocument document = PDDocument.load(new File(path)))
             {
                 PDFTextStripperByArea stripper = new PDFTextStripperByArea();

@@ -65,7 +65,7 @@ public class UnitTest {
 	@Test
 	public void convertPdf() {
 		ResponseEntity<MsgVo> response = this.restTemplate
-				.getForEntity(this.base.toString() + "/dataSet/convertPdfIntoDataSet?path=" + "D:\\cheese python\\huxi_good", 
+				.getForEntity(this.base.toString() + "/dataSet/convertPdfIntoDataSet?path=" + "D:\\cheese python\\pdf\\MRI\\M004r179_心・大血管MRI画像診断報告書_01", 
 						MsgVo.class);
 		System.out.println(String.format("测试结果为：%s", 	response.getBody().getMessage()));
 	}

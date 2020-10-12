@@ -64,12 +64,13 @@ public class ReadablePdfServiceImpl implements ReadablePdfService {
 	    	int first = 0;
 	    	float lastLineY = textPositions.get(0).getYDirAdj();
 	    	PdfLinedata pdfLinedata = new PdfLinedata();
-	    	float lastX = Float.parseFloat("0.0");
+	    	float lastX = Float.parseFloat("15.0");
 	        for (TextPosition text : textPositions){
 	        	//上半部
-	        	if(Float.compare(lastLineY, Float.parseFloat("120"))>0){
+	        	if(Float.compare(lastLineY, Float.parseFloat("420"))>0||Float.compare(lastLineY, Float.parseFloat("350"))<0){
 	        		return;
 	        	}
+	        	System.out.println(text.getXDirAdj() + "--" + lastX);
 	        	if(first==0){
 	        		pdfLinedata.setxBegin(pdfLinedata.getxBegin()==null?text.getXDirAdj():pdfLinedata.getxBegin());
 	        		pdfLinedata.setText(pdfLinedata.getText()==null?text.getUnicode():pdfLinedata.getText()+text.getUnicode());
@@ -84,14 +85,16 @@ public class ReadablePdfServiceImpl implements ReadablePdfService {
 	        			pdfLinedata.setText(text.getUnicode());
 	        			pdfLinedata.setxBegin(text.getXDirAdj());
 	        		}else{
-	        			pdfLinedata.setText(pdfLinedata.getText()+text.getUnicode());
+	        			//去掉特殊符号
+	        			if(!text.getUnicode().equals("：")){
+	        				pdfLinedata.setText(pdfLinedata.getText()+text.getUnicode());
+	        			}
 			            pdfLinedata.setxEnd(text.getWidthOfSpace()+text.getXDirAdj());
 	        		}
-	        		
 	        	}
 	        	//去掉空格
 	        	if(!StringUtils.isBlank(text.getUnicode())&&text.getWidthDirAdj()>=3){
-	        		lastX = text.getXDirAdj();
+	        		lastX = text.getXDirAdj() + text.getWidthDirAdj();
 	        	}
 	        	first++;
 	        	//读取
@@ -396,6 +399,7 @@ public class ReadablePdfServiceImpl implements ReadablePdfService {
 				            //包含写入
 				            stripper.getText(document);
 				        }
+				        return ;
 					} else {
 						continue;
 					}

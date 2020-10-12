@@ -27,6 +27,8 @@ import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.text.PDFTextStripper;
 import org.apache.pdfbox.text.TextPosition;
 
+
+//根据block 获取pdf中的所有文字
 /**
  * This is an example on how to get some x/y coordinates of text.
  *
@@ -58,7 +60,7 @@ public class PrintTextLocations extends PDFTextStripper
         }
         else
         {
-            try (PDDocument document = PDDocument.load(new File("D:\\cheese python\\huxi\\0001_M004k004_呼吸機能検査_170707_システム_呼吸記録検査報告書_1.pdf")))
+            try (PDDocument document = PDDocument.load(new File("D:\\cheese python\\pdf\\MRI\\M004r179_心・大血管MRI画像診断報告書_01\\02019576.pdf")))
         	//try (PDDocument document = PDDocument.load(new File("D:\\cheese python\\10.1.1.148.349.pdf")))
             {
                 PDFTextStripper stripper = new PrintTextLocations();
