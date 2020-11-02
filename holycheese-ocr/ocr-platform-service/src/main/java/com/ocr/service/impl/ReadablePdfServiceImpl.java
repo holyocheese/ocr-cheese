@@ -45,7 +45,7 @@ public class ReadablePdfServiceImpl implements ReadablePdfService {
 	
 	Integer lastId = 0;
 	
-	float minDistance = Float.parseFloat("18.0");
+	float minDistance = Float.parseFloat("10.0");
 	
 	public class PrintTextLocations extends PDFTextStripper
 	{
@@ -64,10 +64,10 @@ public class ReadablePdfServiceImpl implements ReadablePdfService {
 	    	int first = 0;
 	    	float lastLineY = textPositions.get(0).getYDirAdj();
 	    	PdfLinedata pdfLinedata = new PdfLinedata();
-	    	float lastX = Float.parseFloat("15.0");
+	    	float lastX = Float.parseFloat("18.0");
 	        for (TextPosition text : textPositions){
 	        	//上半部
-	        	if(Float.compare(lastLineY, Float.parseFloat("420"))>0||Float.compare(lastLineY, Float.parseFloat("350"))<0){
+	        	if(Float.compare(lastLineY, Float.parseFloat("120"))>0){
 	        		return;
 	        	}
 	        	System.out.println(text.getXDirAdj() + "--" + lastX);
@@ -399,7 +399,6 @@ public class ReadablePdfServiceImpl implements ReadablePdfService {
 				            //包含写入
 				            stripper.getText(document);
 				        }
-				        return ;
 					} else {
 						continue;
 					}
